@@ -15,7 +15,7 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT = 5;
 
     protected static final Logger log = LoggerFactory.getLogger(BasePage.class);
 

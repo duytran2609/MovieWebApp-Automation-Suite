@@ -12,7 +12,7 @@ public class ScreenshotUtils {
     public static String takeScreenshot(WebDriver driver, String testName) {
         try {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
             String dir = "screenshots";
             Files.createDirectories(Path.of(dir));
             String path = dir + "/" + testName + "_" + time + ".png";

@@ -37,7 +37,6 @@ public class LoginTest extends BaseTest {
     // Test flow logic
     @Test(priority = 1, groups = {"function"})
     @Description("Test login với tài khoản hợp lệ")
-
     public void loginWithValidAccount() {
         log.info("Open with valid account");
         loginPage.login("trandangduy13@gmail.com", "xanhlacay1");

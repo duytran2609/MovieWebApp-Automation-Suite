@@ -9,13 +9,21 @@ import org.testng.annotations.BeforeMethod;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeSuite;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 
 
 public class BaseTest {
 
     protected WebDriver driver;
 
-    private static final Logger log = LoggerFactory.getLogger(BaseTest.class);
+    protected static final Logger log = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeMethod
     public void setUp() {
@@ -40,5 +48,16 @@ public class BaseTest {
     public WebDriver getDriver() {
         return driver;
     }
+
+    @BeforeSuite
+    public void cleanAllureResults() throws IOException {
+        Path allureDir = Paths.get("target/allure-results");
+        if (Files.exists(allureDir)) {
+            Files.walk(allureDir).sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
+    }
+
 
 }

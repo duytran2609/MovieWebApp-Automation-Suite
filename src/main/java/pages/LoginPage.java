@@ -14,7 +14,6 @@ import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginPage.class);
     private HomePage homePage;
 
     // Khai báo locators
@@ -22,7 +21,9 @@ public class LoginPage extends BasePage {
     private By inputPassword = By.id("password");
     private By btnLogin = By.cssSelector(".login-btn");
     private By formLogin = By.cssSelector(".login-box");
-    private By txtForgetPass = By.linkText("Quên mật khẩu?");
+    private By txtForgetPass = By.xpath("//*[@id=\"root\"]/div/div/div/form/div[3]/a");
+    private By txtRegister = By.xpath("//*[@id=\"root\"]/div/div/div/div/p/a");
+
 
 
     // Khởi tạo constructor có tham số
@@ -36,10 +37,28 @@ public class LoginPage extends BasePage {
             type(inputEmail, email);
             type(inputPassword, password);
             click(btnLogin);
-        } catch (Exception e) {
+        } catch(Exception e) {
             log.error("Login fail because: ", e);
         }
         return new HomePage(driver);
+    }
+
+    public ForgetPasswordPage forgetPassword() {
+        try {
+            driver.findElement(txtForgetPass).click();
+        } catch(Exception e) {
+            log.error("Cannot navigate to forget password page");
+        }
+        return new ForgetPasswordPage(driver);
+    }
+
+    public RegisterPage register() {
+        try {
+            driver.findElement(txtRegister).click();
+        } catch(Exception e) {
+            log.error("Cannot navigate to register page");
+        }
+        return new RegisterPage(driver);
     }
 
     // Khai báo logic

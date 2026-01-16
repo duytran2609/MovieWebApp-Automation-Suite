@@ -2,6 +2,7 @@
 <suite name="Test Suite by Group">
 
     <listeners>
+        <listener class-name="listeners.TestListener"/>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
 
@@ -15,10 +16,12 @@
 <!--        </groups>-->
 
         <classes>
-            <class name="tests.login.LoginTest"/>
+<!--            <class name="tests.login.LoginTest"/>-->
 <!--            <class name="tests.login.LoginUITest"/>-->
 <!--            <class name="tests.logout.LogoutTest"/>-->
 <!--            <class name="tests.movie.MovieTest"/>-->
+            <class name="tests.login.ForgetPasswordTest"/>
+
         </classes>
 
     </test>
