@@ -22,7 +22,8 @@
 <!--            <class name="tests.movie.MovieTest"/>-->
 <!--            <class name="tests.login.ForgetPasswordTest"/>-->
 <!--            <class name="tests.register.RegisterTest"/>-->
-            <class name="tests.GetMovieListTest"/>
+<!--            <class name="tests.movie.GetHomeMovieTest"/>-->
+            <class name="tests.movie.GetMovieListTest"/>
 
 
         </classes>

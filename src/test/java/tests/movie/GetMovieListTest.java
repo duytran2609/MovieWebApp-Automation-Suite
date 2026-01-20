@@ -1,0 +1,66 @@
+package tests.movie;
+
+import base.BaseTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
+import pages.MovieDetailsPage;
+import pages.MoviePage;
+
+public class GetMovieListTest extends BaseTest {
+
+    public LoginPage loginPage;
+    public HomePage homePage;
+    public MoviePage moviePage;
+    public MovieDetailsPage movieDetailsPage;
+
+    @BeforeMethod
+    public void setUpGetMovieListTest() {
+        driver.get("https://movie-project-front-end.vercel.app/login");
+        loginPage = new LoginPage(driver);
+        homePage = loginPage.login("trandangduy13@gmail.com", "xanhlacay1");
+    }
+
+    // ===== NAVIGATION =====
+    @Test
+    public void shouldNavigateViaHomePageHeader() {
+        if (homePage.headerComponent.isMovieActive()) {
+            moviePage = homePage.headerComponent.navigateToMoviePage();
+        }
+        Assert.assertTrue(homePage.headerComponent.isNavigateToMoviePageSuccess(), "Cannot navigate to movie page");
+    }
+
+    @Test
+    public void shouldNavigateViaMovieDetailsPageHeader() {
+        homePage.navigateToMovieDetailsPage();
+        movieDetailsPage = new MovieDetailsPage(driver);
+        if (movieDetailsPage.headerComponent.isMovieActive()) {
+           moviePage = movieDetailsPage.headerComponent.navigateToMoviePage();
+        }
+        Assert.assertTrue(movieDetailsPage.headerComponent.isNavigateToMoviePageSuccess(), "Cannot navigate to movie page");
+    }
+
+    @Test
+    public void shouldNavigateViaExploreButton() {
+        if (homePage.isHomePageTitleDisplay()) {
+            moviePage = homePage.navigateToMoviePageByExploreText();
+        }
+        Assert.assertTrue(homePage.isNavigateToMoviePageByClickingExploreButton(), "Cannot navigate to movie page");
+    }
+
+    // ===== DISPLAY =====
+
+
+    // ===== CLICK =====
+
+
+    // ===== FILTER =====
+
+
+    // ===== PAGINATION =====
+
+
+
+}

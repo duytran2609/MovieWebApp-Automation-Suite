@@ -6,49 +6,29 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-public class HomePage extends BasePage {
+public class MoviePage extends BasePage {
 
     public HeaderComponent headerComponent;
+    public HomePage homePage;
     public MovieDetailsPage movieDetailsPage;
-    public MoviePage moviePage;
 
-    private By txtWelcomeHomePage = By.tagName("h1");
-    private By txtExplore = By.linkText("Khám phá ngay");
+    private By txtTitleMoviePage = By.tagName("h1");
 
-    private By crdMovie = By.xpath("//*[@id=\"root\"]/div/section[3]/div/div[2]/a[1]");
+    private By crdMovie = By.xpath("//*[@id=\"root\"]/div/div/div[2]/a[1]");
     private By imgMoviePoster = By.cssSelector(".movie-poster");
     private By txtMovieTitle = By.cssSelector(".movie-title");
     private By txtMovieYear = By.cssSelector(".movie-meta");
 
-
-    public HomePage(WebDriver driver) {
+    public MoviePage(WebDriver driver) {
         super(driver);
         headerComponent = new HeaderComponent(driver);
-        wait.until(ExpectedConditions.presenceOfElementLocated(crdMovie));
     }
 
-    public boolean isHomePageTitleDisplay() {
-        return isDisplayed(txtWelcomeHomePage);
-    }
-
-    public boolean isExploreTextActive() {
-        return isDisplayed(txtExplore) && isEnabled(txtExplore);
-    }
-
-    public MoviePage navigateToMoviePageByExploreText() {
-        click(txtExplore);
-        return new MoviePage(driver);
-    }
-
-    public boolean isNavigateToMoviePageByClickingExploreButton() {
-        moviePage = new MoviePage(driver);
-        boolean isMoviePageUrl = driver.getCurrentUrl().toLowerCase().endsWith("movies");
-        return isMoviePageUrl && moviePage.isMoviePageTitleDisplay();
+    public boolean isMoviePageTitleDisplay() {
+        return isDisplayed(txtTitleMoviePage);
     }
 
     private List<WebElement> getMovies() {
@@ -89,5 +69,4 @@ public class HomePage extends BasePage {
         String hrefPart = driver.findElement(crdMovie).getAttribute("href");
         return wait.until(ExpectedConditions.urlContains(hrefPart));
     }
-
 }

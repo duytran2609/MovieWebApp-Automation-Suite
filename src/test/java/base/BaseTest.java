@@ -49,6 +49,8 @@ public class BaseTest {
         return driver;
     }
 
+
+
     @BeforeSuite
     public void cleanAllureResults() throws IOException {
         Path allureDir = Paths.get("target/allure-results");

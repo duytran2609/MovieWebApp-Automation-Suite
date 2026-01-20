@@ -1,4 +1,4 @@
-package tests;
+package tests.movie;
 
 import base.BaseTest;
 import org.testng.Assert;
@@ -8,7 +8,7 @@ import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LoginPage;
 
-public class GetMovieListTest extends BaseTest {
+public class GetHomeMovieTest extends BaseTest {
     private LoginPage loginPage;
     private HomePage homePage;
 
