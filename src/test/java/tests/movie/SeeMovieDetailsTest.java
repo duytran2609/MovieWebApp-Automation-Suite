@@ -1,14 +1,41 @@
 package tests.movie;
 
+import base.BaseTest;
+import components.HeaderComponent;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.MovieDetailsPage;
+import pages.MoviePage;
 
-public class SeeMovieDetailsTest {
+public class SeeMovieDetailsTest extends BaseTest {
 
     private LoginPage loginPage;
     private HomePage homePage;
+    private MoviePage moviePage;
     private MovieDetailsPage movieDetailsPage;
+    private HeaderComponent headerComponent;
 
+    @BeforeMethod
+    public void setUpSeeMovieDetailsTest() {
+        driver.get("https://movie-project-front-end.vercel.app/login");
+        loginPage = new LoginPage(driver);
+        homePage = loginPage.login("trandangduy13@gmail.com", "xanhlacay1");
+    }
 
+    // ===== NAVIGATION =====
+    @Test
+    public void shouldNavigateToMovieDetailsPageViaHomePage() {
+        movieDetailsPage = homePage.navigateToMovieDetailsPage();
+        Assert.assertTrue(homePage.isNavigateToMovieDetailsPage(), "Cannot navigate to movie details page");
+    }
+
+    @Test
+    public void shouldNavigateToMovieDetailsPageViaMoviePage() {
+        moviePage = homePage.headerComponent.navigateToMoviePage();
+        movieDetailsPage = moviePage.navigateToMovieDetailsPage();
+        Assert.assertTrue(moviePage.isNavigateToMovieDetailsPage(), "Cannot navigate to movie details page");
+    }
 }

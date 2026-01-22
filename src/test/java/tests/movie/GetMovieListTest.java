@@ -44,11 +44,20 @@ public class GetMovieListTest extends BaseTest {
 
     @Test
     public void shouldNavigateViaExploreButton() {
-        if (homePage.isHomePageTitleDisplay()) {
+        if (homePage.isExploreTextActive()) {
             moviePage = homePage.navigateToMoviePageByExploreText();
         }
-        Assert.assertTrue(homePage.isNavigateToMoviePageByClickingExploreButton(), "Cannot navigate to movie page");
+        Assert.assertTrue(homePage.isNavigateToMoviePage(), "Cannot navigate to movie page");
     }
+
+    @Test
+    public void shouldNavigateViaViewAllText() {
+        if (homePage.isViewAllActive()) {
+            moviePage = homePage.navigateToMoviePageByViewAllText();
+        }
+        Assert.assertTrue(homePage.isNavigateToMoviePage(), "Cannot navigate to movie page");
+    }
+
 
     // ===== DISPLAY =====
 

@@ -19,6 +19,7 @@ public class HomePage extends BasePage {
 
     private By txtWelcomeHomePage = By.tagName("h1");
     private By txtExplore = By.linkText("Khám phá ngay");
+    private By txtViewAll= By.linkText("Xem tất cả →");
 
     private By crdMovie = By.xpath("//*[@id=\"root\"]/div/section[3]/div/div[2]/a[1]");
     private By imgMoviePoster = By.cssSelector(".movie-poster");
@@ -32,6 +33,7 @@ public class HomePage extends BasePage {
         wait.until(ExpectedConditions.presenceOfElementLocated(crdMovie));
     }
 
+    // ===== NAVIGATION =====
     public boolean isHomePageTitleDisplay() {
         return isDisplayed(txtWelcomeHomePage);
     }
@@ -45,11 +47,22 @@ public class HomePage extends BasePage {
         return new MoviePage(driver);
     }
 
-    public boolean isNavigateToMoviePageByClickingExploreButton() {
+    public boolean isNavigateToMoviePage() {
         moviePage = new MoviePage(driver);
         boolean isMoviePageUrl = driver.getCurrentUrl().toLowerCase().endsWith("movies");
         return isMoviePageUrl && moviePage.isMoviePageTitleDisplay();
     }
+
+    public boolean isViewAllActive() {
+        return isDisplayed(txtViewAll) && isEnabled(txtViewAll);
+    }
+
+    public MoviePage navigateToMoviePageByViewAllText() {
+        click(txtViewAll);
+        return new MoviePage(driver);
+    }
+
+    // ===== MOVIE =====
 
     private List<WebElement> getMovies() {
         wait.until(ExpectedConditions.presenceOfElementLocated(crdMovie));
