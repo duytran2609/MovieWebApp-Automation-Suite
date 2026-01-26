@@ -2,6 +2,7 @@ package pages;
 
 import base.BasePage;
 import components.HeaderComponent;
+import org.apache.logging.log4j.core.util.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends BasePage {
@@ -62,9 +64,8 @@ public class HomePage extends BasePage {
         return new MoviePage(driver);
     }
 
-    // ===== MOVIE =====
-
-    private List<WebElement> getMovies() {
+    // ===== LIST MOVIE =====
+    public List<WebElement> getMovies() {
         wait.until(ExpectedConditions.presenceOfElementLocated(crdMovie));
         return driver.findElements(crdMovie);
     }
@@ -102,5 +103,6 @@ public class HomePage extends BasePage {
         String hrefPart = driver.findElement(crdMovie).getAttribute("href");
         return wait.until(ExpectedConditions.urlContains(hrefPart));
     }
+
 
 }

@@ -16,11 +16,15 @@ public class MoviePage extends BasePage {
     public MovieDetailsPage movieDetailsPage;
 
     private By txtTitleMoviePage = By.tagName("h1");
+    private By iptMovie = By.xpath("//*[@id=\"root\"]/div/div/div[1]/input");
 
-    private By crdMovie = By.xpath("//*[@id=\"root\"]/div/div/div[2]/a[1]");
+    private By crdMovies = By.className("movie-card");
     private By imgMoviePoster = By.cssSelector(".movie-poster");
     private By txtMovieTitle = By.cssSelector(".movie-title");
     private By txtMovieYear = By.cssSelector(".movie-meta");
+
+    private By txtNoMovieFound = By.xpath("//*[@id=\"root\"]/div/div/div[2]/h2");
+
 
     public MoviePage(WebDriver driver) {
         super(driver);
@@ -32,13 +36,15 @@ public class MoviePage extends BasePage {
     }
 
     private List<WebElement> getMovies() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(crdMovie));
-        return driver.findElements(crdMovie);
+        wait.until(ExpectedConditions.presenceOfElementLocated(crdMovies));
+        return driver.findElements(crdMovies);
     }
 
     public int getNumberOfMovies() {
         return getMovies().size();
     }
+
+
 
     private WebElement getFirstMovie() {
         return getMovies().get(0);
@@ -60,13 +66,32 @@ public class MoviePage extends BasePage {
         return getFirstMovie().findElement(txtMovieYear).isDisplayed();
     }
 
+    // ===== MOVIE =====
+    public void searchMovie(String keyword) {
+        type(iptMovie, keyword);
+    }
+
+    public List<String> getAllMovieTitles() {
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.presenceOfElementLocated(crdMovies),
+                ExpectedConditions.presenceOfElementLocated(txtNoMovieFound)
+        ));
+        return driver.findElements(crdMovies).stream()
+                .map(movie -> movie.findElement(txtMovieTitle).getText().toLowerCase())
+                .toList();
+    }
+
+    public String getNoMovieFoundMessage() {
+        return isDisplayed(txtNoMovieFound) ? find(txtNoMovieFound).getText() : "";
+    }
+
     public MovieDetailsPage navigateToMovieDetailsPage() {
-        click(crdMovie);
+        click(crdMovies);
         return new MovieDetailsPage(driver);
     }
 
     public boolean isNavigateToMovieDetailsPage() {
-        String hrefPart = driver.findElement(crdMovie).getAttribute("href");
+        String hrefPart = driver.findElement(crdMovies).getAttribute("href");
         return wait.until(ExpectedConditions.urlContains(hrefPart));
     }
 }

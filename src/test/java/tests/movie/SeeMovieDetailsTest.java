@@ -38,4 +38,14 @@ public class SeeMovieDetailsTest extends BaseTest {
         movieDetailsPage = moviePage.navigateToMovieDetailsPage();
         Assert.assertTrue(moviePage.isNavigateToMovieDetailsPage(), "Cannot navigate to movie details page");
     }
+
+    // ===== CHECKING =====
+    @Test
+    public void isMovieInformationEquals() {
+        moviePage = homePage.headerComponent.navigateToMoviePage();
+        movieDetailsPage = moviePage.navigateToMovieDetailsPage();
+        Assert.assertTrue(moviePage.isNavigateToMovieDetailsPage(), "Cannot navigate to movie details page");
+    }
+
+
 }

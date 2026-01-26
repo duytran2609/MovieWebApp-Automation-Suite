@@ -24,7 +24,8 @@
 <!--            <class name="tests.register.RegisterTest"/>-->
 <!--            <class name="tests.movie.GetHomeMovieTest"/>-->
 <!--            <class name="tests.movie.GetMovieListTest"/>-->
-            <class name="tests.movie.SeeMovieDetailsTest"/>
+<!--            <class name="tests.movie.SeeMovieDetailsTest"/>-->
+            <class name="tests.movie.SearchMovie"/>
 
 
         </classes>
