@@ -25,7 +25,8 @@ public class MoviePage extends BasePage {
     private By txtMovieYear = By.cssSelector(".movie-meta");
 
     private By dropdownMovieType = By.cssSelector(".filter-select");
-    private By optionDropdown = By.cssSelector(".filter-select");
+
+    private By btnClearFilter = By.cssSelector(".filter-reset");
 
     private By txtNoMovieFound = By.xpath("//*[@id=\"root\"]/div/div/div[2]/h2");
 
@@ -67,8 +68,7 @@ public class MoviePage extends BasePage {
         return getFirstMovie().findElement(txtMovieYear).isDisplayed();
     }
 
-    // ===== MOVIE LIST =====
-
+    // ===== SEARCH MOVIE =====
     public void waitForMoviesReload() {
         wait.until(ExpectedConditions.or(
                 ExpectedConditions.presenceOfElementLocated(crdMovies),
@@ -76,9 +76,12 @@ public class MoviePage extends BasePage {
         ));
     }
 
-
     public void searchMovie(String keyword) {
         type(iptMovie, keyword);
+    }
+
+    public String getInputText() {
+        return find(iptMovie).getText();
     }
 
     public List<String> getAllMovieTitles() {
@@ -116,6 +119,11 @@ public class MoviePage extends BasePage {
         return isDisplayed(dropdownMovieType) && isEnabled(dropdownMovieType);
     }
 
+    public String getFirstType() {
+        Select dropdown = new Select(driver.findElement(dropdownMovieType));
+        return dropdown.getFirstSelectedOption().getText();
+    }
+
     public List<String> getAllTypes() {
         Select dropdown = new Select(driver.findElement(dropdownMovieType));
         List<WebElement> options = dropdown.getOptions();
@@ -142,6 +150,26 @@ public class MoviePage extends BasePage {
         Select dropdown = new Select(driver.findElement(dropdownMovieType));
         dropdown.selectByContainsVisibleText(type);
     }
+
+    // ===== CLEAR MOVIE LIST FILTER =====
+    public boolean isClearFilterButtonActive() {
+        return isDisplayed(btnClearFilter) && isEnabled(btnClearFilter);
+    }
+
+    public void clickClearFilterButton() {
+        click(btnClearFilter);
+    }
+
+    public String getMovieInput() {
+        return find(iptMovie).getText();
+    }
+
+    public String getMovieTypeSelected() {
+        Select dropdown = new Select(driver.findElement(dropdownMovieType));
+        return dropdown.toString();
+    }
+
+
 
 }
 
