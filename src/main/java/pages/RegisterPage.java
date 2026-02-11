@@ -9,76 +9,85 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class RegisterPage extends BasePage {
 
+    // ===== LOCATORS =====
+    private By inputUsername = By.id("username");
+    private By inputEmail = By.id("email");
+    private By inputPassword = By.id("password");
+    private By btnRegister = By.className("register-btn");
+    private By txtLogin = By.xpath("//*[@id=\"root\"]/div/div/div/div/p/a");
+    private By msgError = By.className("error-message");
+
+    // ===== PAGE OBJECTS =====
     private LoginPage loginPage;
 
-    By inputUsername = By.id("username");
-    By inputEmail = By.id("email");
-    By inputPassword = By.id("password");
-    By btnRegister = By.className("register-btn");
-    By txtLogin = By.xpath("//*[@id=\"root\"]/div/div/div/div/p/a");
-    By msgError = By.className("error-message");
-
+    // ===== CONSTRUCTOR =====
     public RegisterPage(WebDriver driver) {
         super(driver);
     }
 
+    // ===== ACTIONS =====
     public void inputUsername(String username) {
         log.trace("Input username: [{}]", username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(inputUsername)).clear();
-        driver.findElement(inputUsername).sendKeys(username);
+        type(inputUsername, username);
     }
 
     public void inputEmail(String email) {
         log.trace("Input email: [{}]", email);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(inputEmail)).clear();
-        driver.findElement(inputEmail).sendKeys(email);
+        type(inputEmail, email);
     }
 
     public void inputPassword(String password) {
         log.trace("Input password: [{}]", password);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(inputPassword)).clear();
-        driver.findElement(inputPassword).sendKeys(password);
+        type(inputPassword, password);
     }
 
     public void clickRegisterButton() {
-        driver.findElement(btnRegister).click();
+        click(btnRegister);
     }
 
     public void clickLoginLinkText() {
-        driver.findElement(txtLogin).click();
+        click(txtLogin);
     }
 
-    public boolean isRegisterSuccess() {
-        return wait.until(ExpectedConditions.invisibilityOfElementLocated(btnRegister));
-    }
-
+    // ===== GETTERS / STATES =====
     public boolean isUsernameValid() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement usernameElement = driver.findElement(inputUsername);
-        return (Boolean) js.executeScript("return arguments[0].checkValidity();", usernameElement);
+        WebElement e = find(inputUsername);
+        return (Boolean) js.executeScript("return arguments[0].checkValidity();", e);
     }
 
     public boolean isEmailValid() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement emailElement = driver.findElement(inputEmail);
-        return (Boolean) js.executeScript("return arguments[0].checkValidity();", emailElement);
+        WebElement e = find(inputEmail);
+        return (Boolean) js.executeScript("return arguments[0].checkValidity();", e);
     }
 
     public boolean isPasswordValid() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement passwordElement = driver.findElement(inputPassword);
-        return (Boolean) js.executeScript("return arguments[0].checkValidity();", passwordElement);
+        WebElement e = find(inputPassword);
+        return (Boolean) js.executeScript("return arguments[0].checkValidity();", e);
     }
 
     public boolean isExistingDataErrorDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(msgError)).isDisplayed();
+        return wait.until(
+                ExpectedConditions.visibilityOfElementLocated(msgError)
+        ).isDisplayed();
     }
 
     public String getExistingDataErrorMessage() {
-        return driver.findElement(msgError).getText();
+        return find(msgError).getText();
+    }
+
+    // ===== HIGH-LEVEL / BUSINESS =====
+    public boolean isRegisterSuccess() {
+        return wait.until(
+                ExpectedConditions.invisibilityOfElementLocated(btnRegister)
+        );
     }
 
     public boolean isBackToLoginSuccess() {
-        return wait.until(ExpectedConditions.urlContains("login"));
+        return wait.until(
+                ExpectedConditions.urlContains("login")
+        );
     }
 }

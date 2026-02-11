@@ -7,17 +7,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ForgetPasswordPage extends BasePage {
 
-    private LoginPage loginPage;
+    // ===== LOCATORS =====
+    private By inputEmail = By.id("email");
+    private By btnSubmit = By.className("forgot-password-btn");
+    private By txtBackLogin = By.xpath("//*[@id=\"root\"]/div/div/div/div/p");
 
-    By inputEmail = By.id("email");
-    By btnSubmit = By.className("forgot-password-btn");
-    By txtBackLogin = By.xpath("//*[@id=\"root\"]/div/div/div/div/p");
-
-
+    // ===== CONSTRUCTOR =====
     public ForgetPasswordPage(WebDriver driver) {
         super(driver);
     }
 
+    // ===== ACTIONS =====
     public void inputEmail(String email) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputEmail)).clear();
         driver.findElement(inputEmail).sendKeys(email);
@@ -27,9 +27,10 @@ public class ForgetPasswordPage extends BasePage {
         driver.findElement(btnSubmit).click();
     }
 
+    // ===== GETTERS / STATES =====
+
+    // ===== HIGH-LEVEL / BUSINESS METHODS =====
     public boolean isSendSuccess() {
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(btnSubmit));
     }
-
-
 }

@@ -1,22 +1,13 @@
 package pages;
 
 import base.BasePage;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.bidi.log.Log;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
-    private HomePage homePage;
-
-    // Khai báo locators
+    // ===== LOCATORS =====
     private By inputEmail = By.id("email");
     private By inputPassword = By.id("password");
     private By btnLogin = By.cssSelector(".login-btn");
@@ -24,14 +15,15 @@ public class LoginPage extends BasePage {
     private By txtForgetPass = By.xpath("//*[@id=\"root\"]/div/div/div/form/div[3]/a");
     private By txtRegister = By.xpath("//*[@id=\"root\"]/div/div/div/div/p/a");
 
+    // ===== PAGE OBJECTS =====
+    private HomePage homePage;
 
-
-    // Khởi tạo constructor có tham số
+    // ===== CONSTRUCTOR =====
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    // Khai báo các hành động
+    // ===== ACTIONS =====
     public HomePage login(String email, String password) {
         try {
             type(inputEmail, email);
@@ -45,7 +37,7 @@ public class LoginPage extends BasePage {
 
     public ForgetPasswordPage forgetPassword() {
         try {
-            driver.findElement(txtForgetPass).click();
+            click(txtForgetPass);
         } catch(Exception e) {
             log.error("Cannot navigate to forget password page");
         }
@@ -54,23 +46,14 @@ public class LoginPage extends BasePage {
 
     public RegisterPage register() {
         try {
-            driver.findElement(txtRegister).click();
+            click(txtRegister);
         } catch(Exception e) {
             log.error("Cannot navigate to register page");
         }
         return new RegisterPage(driver);
     }
 
-    // Khai báo logic
-    public boolean isLoginSuccess() {
-        return wait.until(ExpectedConditions.urlMatches("https://movie-project-front-end.vercel.app/"));
-    }
-
-    public boolean isLoginFailed() {
-        return wait.until(ExpectedConditions.urlMatches("https://movie-project-front-end.vercel.app/login"));
-    }
-
-    // Khai báo UI component
+    // ===== GETTERS / STATES =====
     public boolean isLoginFormDisplayed() {
         return isDisplayed(formLogin);
     }
@@ -85,5 +68,18 @@ public class LoginPage extends BasePage {
 
     public boolean isLoginButtonDisplayed() {
         return isDisplayed(btnLogin);
+    }
+
+    // ===== HIGH-LEVEL / BUSINESS METHODS =====
+    public boolean isLoginSuccess() {
+        return wait.until(
+                ExpectedConditions.urlMatches("https://movie-project-front-end.vercel.app/")
+        );
+    }
+
+    public boolean isLoginFailed() {
+        return wait.until(
+                ExpectedConditions.urlMatches("https://movie-project-front-end.vercel.app/login")
+        );
     }
 }

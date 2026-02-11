@@ -11,11 +11,7 @@ import pages.MoviePage;
 
 public class HeaderComponent extends BasePage {
 
-    private HomePage homePage;
-    private MoviePage moviePage;
-    private LoginPage loginPage;
-    private MovieDetailsPage movieDetailsPage;
-
+    // ===== LOCATORS =====
     private By txtLogo = By.tagName("h1");
     private By txtHome = By.linkText("Home");
     private By txtMovie = By.linkText("Phim");
@@ -23,10 +19,37 @@ public class HeaderComponent extends BasePage {
     private By btnLogout = By.cssSelector(".logout-btn");
     private By btnLogin = By.cssSelector("a[data-discover='true']");
 
+    // ===== PAGE OBJECTS =====
+    private HomePage homePage;
+    private MoviePage moviePage;
+    private LoginPage loginPage;
+    private MovieDetailsPage movieDetailsPage;
+
+    // ===== CONSTRUCTOR =====
     public HeaderComponent(WebDriver driver) {
         super(driver);
     }
 
+    // ===== ACTIONS =====
+    public HomePage navigateToHomePage() {
+        click(txtHome);
+        return new HomePage(driver);
+    }
+
+    public MoviePage navigateToMoviePage() {
+        click(txtMovie);
+        return new MoviePage(driver);
+    }
+
+    public void logout() {
+        try {
+            click(btnLogout);
+        } catch (Exception e) {
+            log.error("Logout fail because: ", e);
+        }
+    }
+
+    // ===== GETTERS / STATES =====
     public boolean isLogoDisplay() {
         return isDisplayed(txtLogo);
     }
@@ -35,29 +58,8 @@ public class HeaderComponent extends BasePage {
         return isDisplayed(txtHome) && isEnabled(txtHome);
     }
 
-    public HomePage navigateToHomePage() {
-        click(txtHome);
-        return new HomePage(driver);
-    }
-
-    public boolean isNavigateToHomePageSuccess() {
-        boolean isHomePageUrl = driver.getCurrentUrl().toLowerCase().endsWith("vercel.app");
-        return homePage.isHomePageTitleDisplay() && isHomePageUrl;
-    }
-
     public boolean isMovieActive() {
         return isDisplayed(txtMovie) && isEnabled(txtMovie);
-    }
-
-    public boolean isNavigateToMoviePageSuccess() {
-        moviePage = new MoviePage(driver);
-        boolean isMoviePageUrl = driver.getCurrentUrl().toLowerCase().endsWith("movies");
-        return isMoviePageUrl && moviePage.isMoviePageTitleDisplay();
-    }
-
-    public MoviePage navigateToMoviePage() {
-        click(txtMovie);
-        return new MoviePage(driver);
     }
 
     public boolean isWelcomeUsernameTextDisplay() {
@@ -72,12 +74,23 @@ public class HeaderComponent extends BasePage {
         return isDisplayed(btnLogout) && isEnabled(btnLogout);
     }
 
-    public void logout() {
-        try {
-            click(btnLogout);
-        } catch (Exception e) {
-            log.error("Logout fail because: ", e);
-        }
+    // ===== HIGH-LEVEL / BUSINESS METHODS =====
+    public boolean isNavigateToHomePageSuccess() {
+        homePage = new HomePage(driver);
+        boolean isHomePageUrl = driver.getCurrentUrl()
+                .toLowerCase()
+                .endsWith("vercel.app");
+
+        return homePage.isHomePageTitleDisplay() && isHomePageUrl;
+    }
+
+    public boolean isNavigateToMoviePageSuccess() {
+        moviePage = new MoviePage(driver);
+        boolean isMoviePageUrl = driver.getCurrentUrl()
+                .toLowerCase()
+                .endsWith("movies");
+
+        return isMoviePageUrl && moviePage.isMoviePageTitleDisplay();
     }
 
     public boolean isLogoutSuccess() {
@@ -85,5 +98,4 @@ public class HeaderComponent extends BasePage {
                 && wait.until(ExpectedConditions.invisibilityOfElementLocated(txtUsername))
                 && isDisplayed(btnLogin);
     }
-
 }
