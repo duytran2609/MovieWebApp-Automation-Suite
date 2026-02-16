@@ -127,9 +127,3 @@ src
 - Test data management enhancement
 
 ---
-
-## 👨‍💻 Author
-
-Automation Tester passionate about building reliable and scalable test frameworks.
-
----
